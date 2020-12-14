@@ -60,3 +60,20 @@ def get_data(num_classes):
     test_Y = np_utils.to_categorical(test_Y, num_classes)
 
     return train_X, test_X, train_Y, test_Y, info_train, info_test
+def rank_and_display(hyperparameters_list, accuracy_list):
+
+    # Sort metric and generation
+    idx = np.argsort(accuracy_list)
+    hyperparameters_list_sorted = np.array(hyperparameters_list)[idx].tolist()
+    hyperparameter_best = hyperparameters_list_sorted[-1]
+
+    accuracy_list_sorted = np.array(accuracy_list)[idx].tolist()
+
+    df = pd.DataFrame.from_dict(hyperparameters_list_sorted)
+    df["Accuray"] = accuracy_list_sorted
+
+    print(tabulate(df, headers='keys', tablefmt='psql'))
+
+    return hyperparameter_best
+
+train_X, test_X, train_Y, test_Y, info_train, info_test = get_data(num_classes)
