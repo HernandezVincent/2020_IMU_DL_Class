@@ -34,7 +34,6 @@ def get_data(num_classes):
 
     DB_X = np.load(path_save + "DB_X.npy")
     DB_Y = np.load(path_save + "DB_Y.npy")
-    info = np.load(path_save + "info.npy")
 
     p = np.array([i for i in range(DB_X.shape[0])])
     random.shuffle(p)
@@ -53,13 +52,10 @@ def get_data(num_classes):
     train_Y = DB_Y[p][:n_sample_train]
     test_Y = DB_Y[p][n_sample_train:]
 
-    info_train = info[p][:n_sample_train]
-    info_test = info[p][n_sample_train:]
-
     train_Y = np_utils.to_categorical(train_Y, num_classes)
     test_Y = np_utils.to_categorical(test_Y, num_classes)
 
-    return train_X, test_X, train_Y, test_Y, info_train, info_test
+    return train_X, test_X, train_Y, test_Y
 def rank_and_display(hyperparameters_list, accuracy_list):
 
     # Sort metric and generation
@@ -76,4 +72,4 @@ def rank_and_display(hyperparameters_list, accuracy_list):
 
     return hyperparameter_best
 
-train_X, test_X, train_Y, test_Y, info_train, info_test = get_data(num_classes)
+train_X, test_X, train_Y, test_Y = get_data(num_classes)

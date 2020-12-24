@@ -71,26 +71,53 @@ subject_names = ['001']
 exercises_names = ['AbductionRight', 'BicepsRight', 'Squat', 'AbductionLeft', 'BicepsLeft']
 
 subject_ind = 0
-exercice_ind = 0
+exercice_ind = 4
 
+# Create a path to the data that we are going to use
+path_data = path_root + "\\Data\\" +  subject_names[subject_ind] + "\\" +  exercises_names[exercice_ind] + ".csv"
 
+path_point_save = path_root + '\\Points\\' +  subject_names[subject_ind] + "\\"
 
+# Create the folder where to save the points data
+if not os.path.exists(path_point_save):
+    os.makedirs(path_point_save)
 
-
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! #
-# 1) Call the plotter
-# 2) Click the points
-# 3) After you have finish to click all the points, close the figure
-# 4) Use points = plotter.get_points() to recover the point
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! #
-
-
-
-
+# Get the data
+data, data_dict = get_data(path_data=path_data)
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! #
-# This part of the code must be use only after you have finish to click !!! #
+# 1) Call the plotter                                                       #
+# 2) Click the points                                                       #
+# 3) After you have finish to click all the points, close the figure        #
+# 4) Use points = plotter.get_points() to recover the point                 #
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! #
 
+# Instantiate the Plotter class use to plot the IMU accelerometer data
+plotter = Plotter(data, title="")
+
+
+
+
+
+
+
+
+
+
+### This part of the code must be use only after you have finish to click !!! ###
+
+# Get the click points
+points = plotter.get_points()
+
+# Reshape the list of points to a 2D numpy array
+points = np.array(points) # change to numpy array of size (20, 1)
+points = points.reshape(points.shape[0]//2, 2) # Reshape to numpy array of size (10, 2)
+
+# Instantiate the Plotter class use to plot the IMU accelerometer data and the points
+plotter = Plotter(data, title="")
+plotter.plot_point(points=points)
+
+# Save the points as a numpy array
+np.save(path_point_save + exercises_names[exercice_ind] + "_points", points)
 
 
