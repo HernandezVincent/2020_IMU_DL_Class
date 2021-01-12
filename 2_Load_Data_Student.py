@@ -86,6 +86,8 @@ database_X = np.concatenate([d[np.newaxis, :, :] for d in data_cut_X], axis=0)
 
 # Gather the data in a matrix of size (50) (label)
 database_Y = np.concatenate([d for d in data_cut_Y], axis=0)
+
+
 database_X_std = np.empty(shape=database_X.shape)
 
 # Standardize the input data

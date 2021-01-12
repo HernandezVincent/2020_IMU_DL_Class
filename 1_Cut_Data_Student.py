@@ -74,9 +74,9 @@ subject_ind = 0
 exercice_ind = 4
 
 # Create a path to the data that we are going to use
-path_data = path_root + "\\Data\\" +  subject_names[subject_ind] + "\\" +  exercises_names[exercice_ind] + ".csv"
+path_data = path_root + "\\Data\\" + subject_names[subject_ind] + "\\" +  exercises_names[exercice_ind] + ".csv"
 
-path_point_save = path_root + '\\Points\\' +  subject_names[subject_ind] + "\\"
+path_point_save = path_root + '\\Points\\' + subject_names[subject_ind] + "\\"
 
 # Create the folder where to save the points data
 if not os.path.exists(path_point_save):
