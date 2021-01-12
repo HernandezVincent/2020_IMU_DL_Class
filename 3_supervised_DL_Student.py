@@ -121,13 +121,13 @@ def MLP(hyper):
     model.summary()
 
     return model
-def report(test_Y_true, test_Y_pred, exercices_names):
+def report(test_Y_true, test_Y_pred, labels):
 
     print('Confusion Matrix')
     cm = confusion_matrix(test_Y_true, test_Y_pred)
     print(cm)
 
-    df_cm = pd.DataFrame(cm, index=exercices_names, columns=exercices_names)
+    df_cm = pd.DataFrame(cm, index=labels, columns=labels)
 
     # Plot confusion matrix
     plt.figure(figsize=(10, 7))
@@ -173,7 +173,7 @@ test_Y_pred = np.argmax(test_Y_pred, axis=1)
 test_Y_true = np.argmax(test_Y, axis=1)
 
 # Confusion matrix
-report(test_Y_true, test_Y_pred, exercices_names)
+report(test_Y_true, test_Y_pred, labels=exercices_names)
 
 # example results:
 # Confusion Matrix
@@ -279,8 +279,7 @@ test_Y_true = np.argmax(test_Y, axis=1)
 
 # Confusion matrix
 print('Confusion Matrix')
-cm = confusion_matrix(test_Y_true, test_Y_pred)
-print(cm)
+report(test_Y_true, test_Y_pred, labels=exercices_names)
 
 # Confusion Matrix example (Your results may be different)
 # [[4 0 0 0]
