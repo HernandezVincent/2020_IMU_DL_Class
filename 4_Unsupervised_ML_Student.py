@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random
 from sklearn import decomposition
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import classification_report, confusion_matrix
 from collections import OrderedDict
 
 cwd = os.getcwd() # Get the current working directory
@@ -41,3 +43,51 @@ def get_data(num_classes):
 
 train_X, test_X, train_Y, test_Y = get_data(num_classes)
 
+model = decomposition.PCA(n_components=2)
+model.fit(train_X) # Learning
+
+print(model.components_)
+
+z_train = model.transform(train_X)  # Transform
+z_test = model.transform(test_X)
+
+unique_class = np.unique(train_Y)
+
+cmap = plt.get_cmap('nipy_spectral')
+colors = cmap(np.linspace(0, 1, len(unique_class)))
+colors = dict(zip(unique_class, colors))
+
+plt.figure()
+
+for ind in unique_class:
+
+    indices = [train_Y == ind]
+
+    X = z_train[:, 0][indices]
+    Y = z_train[:, 1][indices]
+
+    plt.scatter(X, Y, color=colors[ind], label=exercises_names[ind], s=300)
+
+    indices = [test_Y == ind]
+
+    X = z_test[:, 0][indices]
+    Y = z_test[:, 1][indices]
+
+    plt.scatter(X, Y, color=colors[ind], label=exercises_names[ind], s=300, marker="+")
+
+    plt.legend()
+
+# Classification on the latent space
+classifier = KNeighborsClassifier(n_neighbors=5)
+classifier.fit(X=z_train, y=train_Y)
+
+pred_Y = classifier.predict(X=z_test)
+
+print("True test class are:")
+print(str(test_Y))
+print("Predicted test class are:")
+print(str(pred_Y))
+
+# Confusion matrix
+print('Confusion Matrix')
+print(confusion_matrix(test_Y, pred_Y))
